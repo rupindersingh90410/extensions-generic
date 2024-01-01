@@ -19372,21 +19372,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.LeviatanScans = exports.LeviatanScansInfo = void 0;
 const paperback_extensions_common_1 = require("paperback-extensions-common");
 const Madara_1 = require("../Madara");
-const DOMAIN = 'https://en.leviatanscans.com';
+const DOMAIN = 'https://dragontea.ink/';
 exports.LeviatanScansInfo = {
-    version: Madara_1.getExportVersion('0.0.4'),
+    version: Madara_1.getExportVersion('0.0.0'),
     name: 'LeviatanScans',
     description: `Extension that pulls manga from ${DOMAIN}`,
-    author: 'GameFuzzy',
-    authorWebsite: 'http://github.com/gamefuzzy',
+    author: 'Netsky',
+    authorWebsite: 'http://github.com/TheNetsky',
     icon: 'icon.png',
-    contentRating: paperback_extensions_common_1.ContentRating.EVERYONE,
+    contentRating: paperback_extensions_common_1.ContentRating.ADULT,
     websiteBaseURL: DOMAIN,
     sourceTags: [
         {
             text: 'Notifications',
             type: paperback_extensions_common_1.TagType.GREEN
-        }
+        },
+        {
+            text: '18+',
+            type: paperback_extensions_common_1.TagType.YELLOW
+        },
     ]
 };
 class LeviatanScans extends Madara_1.Madara {
@@ -19394,71 +19398,9 @@ class LeviatanScans extends Madara_1.Madara {
         super(...arguments);
         this.baseUrl = DOMAIN;
         this.languageCode = paperback_extensions_common_1.LanguageCode.ENGLISH;
-        this.sourceTraversalPathName = '';
+        this.hasAdvancedSearchPage = true;
         this.alternativeChapterAjaxEndpoint = true;
-    }
-    async getHomePageSections(sectionCallback) {
-        const getTraversalPathName = await this.getTraversalPathName();
-        this.sourceTraversalPathName = getTraversalPathName;
-        const sections = [
-            {
-                request: this.constructAjaxHomepageRequest(0, 10, '_latest_update'),
-                section: createHomeSection({
-                    id: '0',
-                    title: 'Recently Updated',
-                    view_more: true,
-                }),
-            },
-            {
-                request: this.constructAjaxHomepageRequest(0, 10, '_wp_manga_week_views_value'),
-                section: createHomeSection({
-                    id: '1',
-                    title: 'Currently Trending',
-                    view_more: true,
-                })
-            },
-            {
-                request: this.constructAjaxHomepageRequest(0, 10, '_wp_manga_views'),
-                section: createHomeSection({
-                    id: '2',
-                    title: 'Most Popular',
-                    view_more: true,
-                })
-            },
-            {
-                request: this.constructAjaxHomepageRequest(0, 10, '_wp_manga_status', 'end'),
-                section: createHomeSection({
-                    id: '3',
-                    title: 'Completed',
-                    view_more: true,
-                })
-            },
-        ];
-        const promises = [];
-        for (const section of sections) {
-            // Let the app load empty sections
-            sectionCallback(section.section);
-            // Get the section data
-            promises.push(this.requestManager.schedule(section.request, 1).then(async (response) => {
-                this.CloudFlareError(response.status);
-                const $ = this.cheerio.load(response.data);
-                section.section.items = await this.parser.parseHomeSection($, this);
-                sectionCallback(section.section);
-            }));
-        }
-        // Make sure the function completes
-        await Promise.all(promises);
-    }
-    async getTraversalPathName() {
-        const request = createRequestObject({
-            url: `${this.baseUrl}`,
-            method: 'GET',
-        });
-        const data = await this.requestManager.schedule(request, 1);
-        this.CloudFlareError(data.status);
-        const $ = this.cheerio.load(data.data);
-        const path = $('.c-sub-nav_wrap ul li:contains(\'Manga\') a').attr('href')?.replace(`${this.baseUrl}/`, '').replace(/\/+$/, '') ?? '';
-        return path;
+        this.sourceTraversalPathName = 'porncomic';
     }
 }
 exports.LeviatanScans = LeviatanScans;
