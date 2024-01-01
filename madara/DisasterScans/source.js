@@ -19372,7 +19372,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.DisasterScans = exports.DisasterScansInfo = void 0;
 const paperback_extensions_common_1 = require("paperback-extensions-common");
 const Madara_1 = require("../Madara");
-const DOMAIN = 'https://disasterscans.com';
+const DOMAIN = 'https://disasterscans.com/home';
 exports.DisasterScansInfo = {
     version: Madara_1.getExportVersion('0.0.0'),
     name: 'DisasterScans',
