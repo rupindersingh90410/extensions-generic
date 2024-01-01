@@ -2,7 +2,7 @@
 
 ## THIS IS A FORKED REPO OF THE ORIGINAL PAPERBACK GENERIC
 
-[Github Repo](https://github.com/TheNetsky/extensions-generic)
+[Github Repo](https://github.com/rupindersingh90410/extensions-generic)
 <br>
 Join the [Discord](https://discord.gg/rmf6jQpMU9) for support and more sources!
 
